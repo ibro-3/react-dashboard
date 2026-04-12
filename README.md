@@ -1,41 +1,37 @@
-# Dashboard
+# React Dashboard
 
-A simple React dashboard application.
+A modern React dashboard application with routing, charts, and theme support.
 
 ## Features
 
-- Responsive layout
-- Real-time data visualization
-- User-friendly interface
+- Dashboard with statistics and charts
+- Activity tracking page
+- Data table with sortable/filterable data
+- Settings page with form handling
+- Dark/Light theme toggle
+- Responsive sidebar navigation
+- Smooth animations with Framer Motion
 
-## Installation
+## Tech Stack
+
+- React 19
+- React Router DOM 7
+- Recharts
+- Framer Motion
+- Lucide React
+- React Hook Form
+- Vite
+
+## Getting Started
 
 ```bash
-npm install
+pnpm install
+pnpm dev
 ```
 
-## Usage
+## Commands
 
-```bash
-npm start
-```
-
-The dashboard will open at `http://localhost:3000`.
-
-## Build
-
-```bash
-npm run build
-```
-
-Creates an optimized production build in the `build` folder.
-
-## Technologies
-
-- React
-- CSS3
-- JavaScript ES6+
-
-## License
-
-MIT
+- `pnpm dev` - Start development server
+- `pnpm build` - Build for production
+- `pnpm lint` - Run ESLint
+- `pnpm preview` - Preview production build
