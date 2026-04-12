@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Sidebar from './components/Sidebar';
 import Header from './components/Header';
@@ -8,55 +8,27 @@ import DataTable from './components/DataTable';
 import Settings from './components/Settings';
 
 function App() {
-  // Initialize sidebar based on window width (closed on mobile by default)
   const [sidebarOpen, setSidebarOpen] = useState(window.innerWidth > 768);
-  const [isDark, setIsDark] = useState(false);
+  const [isDark, setIsDark] = useState(() => {
+    const saved = localStorage.getItem('theme');
+    const prefers = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    return saved === 'dark' || (!saved && prefers);
+  });
 
   useEffect(() => {
-    // Check system preference or saved theme
-    const savedTheme = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  }, [isDark]);
 
-    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
-      setIsDark(true);
-      document.documentElement.setAttribute('data-theme', 'dark');
-    } else {
-      setIsDark(false);
-      document.documentElement.setAttribute('data-theme', 'light');
-    }
-  }, []);
-
-  const toggleTheme = () => {
-    setIsDark(prev => {
-      const newTheme = !prev;
-      document.documentElement.setAttribute('data-theme', newTheme ? 'dark' : 'light');
-      localStorage.setItem('theme', newTheme ? 'dark' : 'light');
-      return newTheme;
-    });
-  };
-
-  const toggleSidebar = () => {
-    setSidebarOpen(!sidebarOpen);
-  };
+  const toggleTheme = () => setIsDark(prev => !prev);
+  const toggleSidebar = () => setSidebarOpen(prev => !prev);
 
   return (
     <div className="app-container">
-      {/* Mobile Overlay */}
-      {sidebarOpen && (
-        <div
-          className="mobile-overlay"
-          onClick={() => setSidebarOpen(false)}
-        />
-      )}
-
+      {sidebarOpen && <div className="mobile-overlay" onClick={() => setSidebarOpen(false)} />}
       <Sidebar isOpen={sidebarOpen} />
-
       <div className={`main-wrapper ${sidebarOpen ? 'sidebar-open' : ''}`}>
-        <Header
-          toggleSidebar={toggleSidebar}
-          toggleTheme={toggleTheme}
-          isDark={isDark}
-        />
+        <Header toggleSidebar={toggleSidebar} toggleTheme={toggleTheme} isDark={isDark} />
         <Routes>
           <Route path="/" element={<DashboardContent />} />
           <Route path="/activity" element={<Activity />} />

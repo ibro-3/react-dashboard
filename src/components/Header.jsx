@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Search, Bell, Menu, User, Moon, Sun } from 'lucide-react';
 import './Header.css';
 

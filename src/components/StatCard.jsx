@@ -1,7 +1,7 @@
 import React from 'react';
 import { ArrowUpRight, ArrowDownRight } from 'lucide-react';
 
-const StatCard = ({ title, value, trend, trendValue, icon: Icon, color }) => {
+const StatCard = ({ title, value, trend, trendValue, icon: icon, color }) => {
   const isPositive = trend === 'up';
 
   return (
@@ -9,7 +9,7 @@ const StatCard = ({ title, value, trend, trendValue, icon: Icon, color }) => {
       <div className="stat-header">
         <span className="stat-title">{title}</span>
         <div className="stat-icon" style={{ backgroundColor: `var(--color-${color}-light)`, color: `var(--color-${color})` }}>
-          <Icon size={20} />
+          {icon && <icon size={20} />}
         </div>
       </div>
 
